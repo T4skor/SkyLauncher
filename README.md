@@ -4,23 +4,26 @@
 
 Launcher independiente para **Minecraft Java Edition**, con interfaz gráfica en **Rust (egui/eframe)** y motor Python basado en minecraft-launcher-lib. Interfaz en español; no es todavía una implementación íntegramente Rust.
 
-## Arch Linux / yay
+## Instalar en Arch Linux (x86_64)
 
 Hay empaquetado nativo para Arch x86_64 con ejecutable, icono y acceso desde el
-menú. **Todavía no está publicado en AUR**: `yay -S skylauncher` requiere primero
-publicar las fuentes y la receta.
+menú. **SkyLauncher no está publicado en AUR**: instálalo desde las fuentes de
+GitHub con estos comandos (necesitas `yay` para la dependencia Python de AUR):
 
-Para construir el paquete local:
-
-```sh
-sudo pacman -S --needed base-devel rust desktop-file-utils
+```bash
+sudo pacman -S --needed git base-devel rust desktop-file-utils
 yay -S --needed python-minecraft-launcher-lib
-python packaging/arch/build-local.py
+git clone https://github.com/T4skor/SkyLauncher.git
+cd SkyLauncher
+python packaging/arch/build-local.py --output-dir "$PWD/dist/arch-build-local"
+sudo pacman -U dist/arch-build-local/skylauncher-0.3.0-4-x86_64.pkg.tar.zst
+skylauncher
 ```
 
-Instala con `sudo pacman -U` el archivo `.pkg.tar.zst` que genera el comando.
-No necesita la `.venv` del proyecto una vez instalado. Instrucciones de instalación,
-dependencias y publicación en AUR: **[docs/arch-package.md](docs/arch-package.md)**.
+Si ya existe `dist/arch-build-local`, elige otra ruta de salida nueva. Si la
+dependencia falla por el checksum de AUR, consulta la alternativa verificada en
+**[docs/arch-package.md](docs/arch-package.md)**. No necesita la `.venv` del
+proyecto una vez instalado.
 
 ## Interfaz Rust
 
