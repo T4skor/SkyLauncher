@@ -109,6 +109,3 @@ selección explícita del backend seguro y cierre de sesión con borrado pendien
 Los layouts se prueban también a 800×600.
 La autenticación y renovación reales requieren probar con la cuenta del usuario;
 no se han solicitado, inspeccionado ni utilizado sus credenciales para estas pruebas.
-
-La interfaz heredada `launcher.py` no cambia y sigue conservando la sesión solo
-durante su ejecución.
