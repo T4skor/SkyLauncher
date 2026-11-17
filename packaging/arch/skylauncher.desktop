@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=SkyLauncher
+GenericName=Minecraft Java Launcher
+GenericName[es]=Launcher de Minecraft Java
+Comment=Manage Minecraft versions, mod loaders, local profiles and skins
+Comment[es]=Gestiona versiones, loaders, perfiles locales y skins de Minecraft
+Exec=skylauncher
+TryExec=skylauncher
+Icon=skylauncher
+Terminal=false
+Categories=Game;
+Keywords=Minecraft;Java;Forge;NeoForge;Fabric;Quilt;
+StartupNotify=true
+StartupWMClass=skylauncher

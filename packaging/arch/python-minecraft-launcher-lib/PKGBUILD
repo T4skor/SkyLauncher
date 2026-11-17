@@ -1,0 +1,30 @@
+# Local workaround for the AUR 8.0-1 Codeberg archive checksum mismatch.
+# Uses the upstream author's versioned PyPI source distribution with its
+# published SHA-256, without generating Sphinx documentation.
+pkgname=python-minecraft-launcher-lib
+pkgver=8.0
+pkgrel=1.1
+pkgdesc='A Python library for creating a custom Minecraft launcher'
+arch=('any')
+url='https://codeberg.org/JakobDev/minecraft-launcher-lib'
+license=('BSD-2-Clause')
+depends=('python' 'python-requests')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+source=("https://files.pythonhosted.org/packages/1e/68/fdd869aea9f04fe1dc7f243df084a7e30843bed5776890f29ac0b85f213b/minecraft_launcher_lib-${pkgver}.tar.gz")
+sha256sums=('4ce173f2e1885c0d5bdf5ecebaa2f1ffc63140663c77699696689f3807b6bdb0')
+
+build() {
+  cd "minecraft_launcher_lib-$pkgver"
+  /usr/bin/python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "minecraft_launcher_lib-$pkgver"
+  /usr/bin/python -c 'import minecraft_launcher_lib as mc; assert {"fabric", "forge", "neoforge", "quilt"} <= set(mc.mod_loader.list_mod_loader())'
+}
+
+package() {
+  cd "minecraft_launcher_lib-$pkgver"
+  /usr/bin/python -m installer --destdir "$pkgdir" dist/*.whl
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

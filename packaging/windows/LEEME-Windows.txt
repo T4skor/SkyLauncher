@@ -1,0 +1,44 @@
+SkyLauncher 0.3.0 · by T4skor
+Launcher de Minecraft Java Edition para Windows 10/11 de 64 bits.
+
+CÓMO EJECUTAR
+1. Con el instalador: ejecuta SkyLauncher-<versión>-windows-x64-setup.exe.
+   Se instala en tu perfil de usuario, sin permisos de administrador, y crea
+   accesos directos en el escritorio y en el menú Inicio.
+2. Con la carpeta portable: descomprime la carpeta completa y abre
+   SkyLauncher.exe. El .exe necesita la carpeta "python" que está a su lado;
+   no lo muevas solo.
+3. En Jugar elige "Perfil local" y escribe un nombre (3–16 letras, números o
+   guiones bajos), o configura un Client ID en Ajustes y usa Microsoft.
+
+NO HACE FALTA INSTALAR PYTHON
+La carpeta "python" incluye Python 3.12, minecraft-launcher-lib 8.0, requests
+y keyring ya instalados. El launcher usa ese intérprete automáticamente y
+guarda la sesión Microsoft en el llavero de Windows (Credential Manager).
+
+JAVA
+El runtime de Minecraft lo descarga el launcher cuando hace falta. Para
+instalar un loader desde la pestaña Mods sí necesitas Java en el PATH o su
+ruta indicada en Ajustes.
+
+DATOS
+Mundos, versiones, mods y ajustes se guardan en:
+  %USERPROFILE%\.mi-minecraft-launcher
+La salida de la última partida queda en game.log dentro de esa carpeta.
+El instalador y el desinstalador no borran esos datos: si quieres eliminarlos,
+hazlo a mano después de desinstalar.
+
+SKINS EN SERVIDORES
+En Skins → Mi skin → Usar en un servidor con SkinsRestorer puedes publicar el
+PNG de forma anónima en MineSkin y copiar el comando /skin url o
+/sr createcustom para el servidor. La URL de textura es pública.
+Si tienes activada una skin local con CustomSkinLoader, ese mod puede ocultar
+la skin que envía el servidor; desactívalo en Mods si usas SkinsRestorer.
+
+NOTAS
+- La primera instalación descarga varios GB y necesita Internet.
+- Requiere Windows 10/11 x64.
+- El launcher no trae cancelación de descargas ni instalador de Forge.
+- Si el motor no arranca, comprueba que la carpeta "python" sigue junto al
+  .exe y que el antivirus no la haya bloqueado.
+- Código fuente y licencia MIT: consulta el repositorio del proyecto.

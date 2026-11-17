@@ -1,0 +1,99 @@
+# Local source recipe. Before submitting to AUR, publish a tagged release,
+# set url/source to its public HTTPS URLs, and regenerate checksums/.SRCINFO.
+pkgname=skylauncher
+pkgver=0.3.0
+pkgrel=4
+pkgdesc='Independent Minecraft Java launcher with local profiles, mod loaders and skins'
+arch=('x86_64')
+url=''
+license=('MIT' 'OFL-1.1')
+depends=(
+  'glibc'
+  'gcc-libs'
+  'hicolor-icon-theme'
+  'libglvnd'
+  'libx11'
+  'libxcb'
+  'libxcursor'
+  'libxi'
+  'libxrandr'
+  'libxkbcommon'
+  'libxkbcommon-x11'
+  'wayland'
+  'python'
+  'python-requests'
+  'python-keyring'
+  'python-secretstorage'
+  'python-minecraft-launcher-lib=8.0'
+  'xdg-utils'
+  'xdg-desktop-portal'
+)
+makedepends=('cargo')
+checkdepends=('desktop-file-utils')
+optdepends=(
+  'java-runtime: Java compatible with your Minecraft version and mod loader installers'
+  'gnome-keyring: Secret Service provider to remember Microsoft sessions (or use KWallet)'
+  'kwallet: Alternative Secret Service provider for Microsoft sessions'
+  'xdg-desktop-portal-gtk: GTK file picker backend (use the backend for your desktop)'
+  'xdg-desktop-portal-kde: KDE file picker backend'
+)
+options=('!lto' '!debug')
+source=("skylauncher-${pkgver}.tar.gz")
+# build-local.py replaces this local-only bootstrap value with the actual hash.
+sha256sums=('SKIP')
+
+_cargo_environment() {
+  export CARGO_TARGET_DIR="$srcdir/target"
+  export SKYLAUNCHER_SYSTEM_PYTHON=/usr/bin/python
+  local remap="--remap-path-prefix=$srcdir=/usr/src/debug/$pkgname"
+  if [[ " ${RUSTFLAGS:-} " != *" $remap "* ]]; then
+    RUSTFLAGS="${RUSTFLAGS:-} $remap"
+  fi
+  remap="--remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/usr/src/debug/cargo"
+  if [[ " ${RUSTFLAGS:-} " != *" $remap "* ]]; then
+    RUSTFLAGS="${RUSTFLAGS:-} $remap"
+  fi
+  export RUSTFLAGS
+}
+
+prepare() {
+  cd "$srcdir/skylauncher-$pkgver"
+  export CARGO_TARGET_DIR="$srcdir/target"
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/^host: //p')"
+}
+
+build() {
+  cd "$srcdir/skylauncher-$pkgver"
+  _cargo_environment
+  cargo build --release --locked --offline
+}
+
+check() {
+  cd "$srcdir/skylauncher-$pkgver"
+  _cargo_environment
+  cargo test --release --locked --offline
+  /usr/bin/python -m unittest discover -s tests -v
+  desktop-file-validate packaging/arch/skylauncher.desktop
+}
+
+package() {
+  cd "$srcdir/skylauncher-$pkgver"
+  install -Dm755 "$srcdir/target/release/skylauncher" "$pkgdir/usr/bin/skylauncher"
+  install -Dm644 packaging/arch/skylauncher.desktop \
+    "$pkgdir/usr/share/applications/skylauncher.desktop"
+  install -Dm644 packaging/arch/skylauncher.svg \
+    "$pkgdir/usr/share/icons/hicolor/scalable/apps/skylauncher.svg"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 assets/Tektur-OFL.txt "$pkgdir/usr/share/licenses/$pkgname/Tektur-OFL.txt"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 docs/loaders-profiles-skins.md \
+    "$pkgdir/usr/share/doc/$pkgname/loaders-profiles-skins.md"
+  install -Dm644 docs/arch-package.md \
+    "$pkgdir/usr/share/doc/$pkgname/arch-package.md"
+  install -Dm644 docs/windows-build.md \
+    "$pkgdir/usr/share/doc/$pkgname/windows-build.md"
+  install -Dm644 docs/microsoft-session.md \
+    "$pkgdir/usr/share/doc/$pkgname/microsoft-session.md"
+  install -Dm644 docs/product-review.md \
+    "$pkgdir/usr/share/doc/$pkgname/product-review.md"
+}

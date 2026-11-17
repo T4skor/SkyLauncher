@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <title>SkyLauncher</title>
+  <rect width="256" height="256" rx="40" fill="#0b1120"/>
+  <path d="M32 106 112 62 192 106 112 150Z" fill="#74c96b"/>
+  <path d="M32 106 112 150 112 216 32 172Z" fill="#694b35"/>
+  <path d="M112 150 192 106 192 172 112 216Z" fill="#8b623f"/>
+  <path d="M32 106 112 150 112 164 32 120Z" fill="#477d41"/>
+  <path d="M112 150 192 106 192 120 112 164Z" fill="#5ba151"/>
+  <path d="M175 48 200 34 225 48 200 62Z" fill="#f2c14e"/>
+  <path d="M175 48 200 62 200 83 175 69Z" fill="#92742f"/>
+  <path d="M200 62 225 48 225 69 200 83Z" fill="#be983d"/>
+</svg>

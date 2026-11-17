@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+/target/
+/dist/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.log
+*.pkg.tar.zst
